@@ -1,0 +1,29 @@
+name: APK Yapıcı Canavar
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Flutter Kurulumu
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+
+      - name: Flet Yükle ve APK Bas
+        run: |
+          pip install flet
+          flet build apk
+
+      - name: APK Dosyasını Teslim Et
+        uses: actions/upload-artifact@v3
+        with:
+          name: YKS_Net_OBP_Robotu
+          path: build/apk/app-release.apk
