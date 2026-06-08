@@ -1,4 +1,4 @@
-name: APK Yapıcı Canavar
+name: Tam Donanimli APK Yapici
 on: [push, workflow_dispatch]
 
 jobs:
@@ -6,6 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Java Kurulumu
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Python Kurulumu
         uses: actions/setup-python@v5
@@ -17,12 +23,12 @@ jobs:
         with:
           flutter-version: '3.22.2'
 
-      - name: Flet Yükle ve APK Bas
+      - name: Flet ve Paketleme
         run: |
           pip install flet
           flet build apk
 
-      - name: APK Dosyasını Teslim Et
+      - name: APK Dosyasini Teslim Et
         uses: actions/upload-artifact@v4
         with:
           name: YKS_Net_OBP_Robotu
